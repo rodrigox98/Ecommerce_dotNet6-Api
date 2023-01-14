@@ -1,4 +1,6 @@
-﻿using Ecommerce.Context;
+﻿using AutoMapper;
+using Ecommerce.Context;
+using Ecommerce.DTOs.VendedorDTO;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +11,11 @@ namespace Ecommerce.Controllers
     public class VendedorController : ControllerBase
     {
         private readonly EcommerceContext _context;
+        private IMapper _mapper;
 
-        public VendedorController(EcommerceContext context)
+        public VendedorController(EcommerceContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
@@ -19,11 +23,12 @@ namespace Ecommerce.Controllers
 
         #region Post
         [HttpPost]
-        public IActionResult CreateVendedor([FromBody] Vendedor vendedor)
+        public IActionResult CreateVendedor([FromBody] CreateVendedorDTO vendedorDTO)
         {
+            Vendedor vendedor = _mapper.Map<Vendedor>(vendedorDTO);
             _context.Vendedores.Add(vendedor);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(GetVendedorById), new {id = vendedor.IdVendedor}, vendedor);
+            return CreatedAtAction(nameof(GetVendedorById), new { Id = vendedor.VendedorId }, vendedor);
         }
         #endregion
 
@@ -46,8 +51,10 @@ namespace Ecommerce.Controllers
              
             return Ok(vendedorId);
         }
+        #endregion
 
 
+        #region Put
         [HttpPut("{id}")]
         public IActionResult UpdateVendedor(int id, [FromBody] Vendedor vendedor)
         {
