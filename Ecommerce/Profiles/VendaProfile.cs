@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Ecommerce.DTOs.VendaDTO;
 using Ecommerce.Models;
-
+using System.Linq;
 namespace Ecommerce.Profiles
 {
     public class VendaProfile : Profile
@@ -9,6 +9,8 @@ namespace Ecommerce.Profiles
         public VendaProfile()
         {
             CreateMap<CreateVendaDTO, Venda>();
+            CreateMap<Venda, ReadVendaDTO>();
+                    
         }
     }
 }

@@ -3,6 +3,7 @@ using Ecommerce.Context;
 using Ecommerce.DTOs.VendaDTO;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Ecommerce.Controllers
 {
@@ -36,7 +37,8 @@ namespace Ecommerce.Controllers
         public IActionResult GetAllVendas()
         {
             List<Venda> vendas = _context.Vendas.ToList();
-            return Ok(vendas);
+            List<ReadVendaDTO> vendasDTO = _mapper.Map<List<ReadVendaDTO>>(vendas);
+            return Ok(vendasDTO);
         }
         #endregion
     }

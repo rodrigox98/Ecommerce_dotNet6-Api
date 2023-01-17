@@ -14,6 +14,7 @@ namespace Ecommerce.Models
         public string Email { get; set; }
         [StringLength(11, ErrorMessage = "Número deve ter obrigatoriamente 11 dígitos", MinimumLength = 11)]
         public string Telefone { get; set; }
+        [JsonIgnore]
         public virtual List<Venda> Vendas { get; set; }
         
     }
