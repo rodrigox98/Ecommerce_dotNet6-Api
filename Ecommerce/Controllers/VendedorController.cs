@@ -37,39 +37,39 @@ namespace Ecommerce.Controllers
         [HttpGet]
         public IActionResult GetAllVendedores()
         {
-            List<Vendedor> vendores = _context.Vendedores.ToList();
-            return Ok(vendores);
+            
+            List<Vendedor> vendedores = _context.Vendedores.ToList();
+            List<ReadVendedorDTO> vendedoresDTO = _mapper.Map<List<ReadVendedorDTO>>(vendedores);
+            return Ok(vendedoresDTO);
         }
 
 
         [HttpGet("{id}")]
         public IActionResult GetVendedorById(int id)
         {
+            var vendedorBanco = _context.Vendedores.FirstOrDefault(v => v.VendedorId == id);
             
-            var vendedorId = _context.Vendedores.Find(id);
-            if (vendedorId == null) return NotFound(msg);
-             
-            return Ok(vendedorId);
+            if (vendedorBanco == null) return NotFound(msg);
+
+            ReadVendedorDTO vendedor = _mapper.Map<ReadVendedorDTO>(vendedorBanco);
+            
+            return Ok(vendedor);
         }
         #endregion
 
 
         #region Put
         [HttpPut("{id}")]
-        public IActionResult UpdateVendedor(int id, [FromBody] Vendedor vendedor)
+        public IActionResult UpdateVendedor(int id, [FromBody] UpdateVendedorDTO vendedorDTO)
         {
-            var vendedorBancoDeDados = _context.Vendedores.Find(id);
+            Vendedor vendedorBancoDeDados = _context.Vendedores.FirstOrDefault(f => f.VendedorId == id);
 
             if (vendedorBancoDeDados == null) return NotFound(msg);
 
-            vendedorBancoDeDados.Cpf = vendedor.Cpf;
-            vendedorBancoDeDados.Nome = vendedor.Nome;
-            vendedorBancoDeDados.Telefone = vendedor.Telefone;
-            vendedorBancoDeDados.Email = vendedor.Email;
-
-            _context.Update(vendedorBancoDeDados);
+            _mapper.Map(vendedorDTO, vendedorBancoDeDados);
+           
             _context.SaveChanges();
-            return Ok(vendedorBancoDeDados);
+            return NoContent();
         }
         #endregion
     }

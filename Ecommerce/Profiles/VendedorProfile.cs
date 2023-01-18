@@ -10,6 +10,7 @@ namespace Ecommerce.Profiles
         {
             CreateMap<CreateVendedorDTO, Vendedor>();
             CreateMap<Vendedor, ReadVendedorDTO>();
+            CreateMap<UpdateVendedorDTO, Vendedor>();
         }
     }
 }

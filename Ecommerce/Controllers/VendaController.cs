@@ -4,6 +4,7 @@ using Ecommerce.DTOs.VendaDTO;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Net;
 
 namespace Ecommerce.Controllers
 {
@@ -20,11 +21,17 @@ namespace Ecommerce.Controllers
             _mapper = mapper;
         }
 
+
+        
         #region Post
         [HttpPost]
         public IActionResult CreateVenda([FromBody] CreateVendaDTO vendaDTO)
         {
+            //Verifica se o Json passado no body está correto. Exemplo: Foreign Key. 
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             Venda venda = _mapper.Map<Venda>(vendaDTO);
+
             _context.Vendas.Add(venda);
             _context.SaveChanges();
             return Ok();
