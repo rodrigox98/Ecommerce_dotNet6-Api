@@ -48,5 +48,28 @@ namespace Ecommerce.Controllers
             return Ok(vendasDTO);
         }
         #endregion
+
+
+
+
+
+        #region Put
+        [HttpPut("{id}")]
+        public IActionResult UpdateVenda(int id, UpdateVendaDTO vendaDTO)
+        {
+            Venda vendaBanco = _context.Vendas.FirstOrDefault(v => v.VendaId == id);
+            
+            if(vendaBanco == null)
+            {
+                return NotFound(new {msg = "Objeto não encontrado, verifique o ID"});
+            }
+            else
+            {
+                _mapper.Map(vendaDTO, vendaBanco);
+                _context.SaveChanges();
+                return NoContent();
+            }
+        }
+        #endregion
     }
 }

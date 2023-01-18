@@ -11,7 +11,7 @@ namespace Ecommerce.Profiles
         {
             CreateMap<CreateVendaDTO, Venda>();
             CreateMap<Venda, ReadVendaDTO>();
-            
+            CreateMap<UpdateVendaDTO, Venda>();
         }
     }
 }
