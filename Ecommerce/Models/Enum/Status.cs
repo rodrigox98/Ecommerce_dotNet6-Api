@@ -2,12 +2,16 @@
 {
     public enum Status
     {
+       
+        AguardandoPagamento,
+
         PagamentoAprovado,
 
         EnviadoParaTransportadora,
 
-        Entrege,
+        Entregue,
 
         Cancelada
+
     }
 }

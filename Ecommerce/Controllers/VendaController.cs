@@ -2,6 +2,7 @@
 using Ecommerce.Context;
 using Ecommerce.DTOs.VendaDTO;
 using Ecommerce.Models;
+using Ecommerce.Models.Enum;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net;
@@ -19,6 +20,7 @@ namespace Ecommerce.Controllers
         {
             _context = context;
             _mapper = mapper;
+            
         }
 
 
@@ -59,12 +61,18 @@ namespace Ecommerce.Controllers
         {
             Venda vendaBanco = _context.Vendas.FirstOrDefault(v => v.VendaId == id);
             
+
+            TryValidateModel(vendaDTO);
+
             if(vendaBanco == null)
             {
                 return NotFound(new {msg = "Objeto não encontrado, verifique o ID"});
             }
             else
             {
+                EnumVerification verification = new EnumVerification();
+                if (verification.IsStatusInvalide(vendaBanco, vendaDTO)) return BadRequest();
+                
                 _mapper.Map(vendaDTO, vendaBanco);
                 _context.SaveChanges();
                 return NoContent();

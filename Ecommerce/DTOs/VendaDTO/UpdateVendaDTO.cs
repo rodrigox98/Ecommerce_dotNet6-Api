@@ -6,6 +6,6 @@ namespace Ecommerce.DTOs.VendaDTO
     public class UpdateVendaDTO
     {
         [Required]
-        public Status StatusVenda { get; set; }
+        public Status StatusVenda { get; set ; }
     }
 }

@@ -9,9 +9,8 @@ namespace Ecommerce.DTOs.VendaDTO
         [Required]
         public string Itens { get; set; }
         [Required]
-        public Status StatusVenda { get; set; }
         public int VendedorId { get; set; }
         public DateTime DataVenda { get; set; }
-
+        
     }
 }
