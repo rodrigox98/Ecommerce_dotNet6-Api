@@ -22,6 +22,12 @@ namespace Ecommerce.Controllers
         string msg = "Objeto não encontrado";
 
         #region Post
+        /// <summary>
+        /// Adiciona um Vendedor ao banco de dados.
+        /// </summary>
+        /// <param name="vendedorDTO">Objeto com campos necessários para criação de um vendedor.</param>
+        /// <returns>IActionResult</returns>
+        /// <response code="201">Caso inserção seja feita com sucesso.</response>
         [HttpPost]
         public IActionResult CreateVendedor([FromBody] CreateVendedorDTO vendedorDTO)
         {
@@ -34,6 +40,10 @@ namespace Ecommerce.Controllers
 
 
         #region Get
+        /// <summary>
+        /// Retorna todos os vendedores do banco de dados.
+        /// </summary>
+        /// <returns>IActionResult</returns>
         [HttpGet]
         public IActionResult GetAllVendedores()
         {
@@ -43,7 +53,11 @@ namespace Ecommerce.Controllers
             return Ok(vendedoresDTO);
         }
 
-
+        /// <summary>
+        /// Retorna um vendedor pelo Id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>IActionResult</returns>
         [HttpGet("{id}")]
         public IActionResult GetVendedorById(int id)
         {
@@ -59,6 +73,12 @@ namespace Ecommerce.Controllers
 
 
         #region Put
+        /// <summary>
+        /// Atualize os dados de um determinado vendedor do banco de dados.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="vendedorDTO"></param>
+        /// <returns>IActionResult</returns>
         [HttpPut("{id}")]
         public IActionResult UpdateVendedor(int id, [FromBody] UpdateVendedorDTO vendedorDTO)
         {

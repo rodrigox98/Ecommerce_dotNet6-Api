@@ -22,10 +22,13 @@ namespace Ecommerce.Controllers
             _mapper = mapper;
             
         }
-
-
         
         #region Post
+        /// <summary>
+        /// Adiciona uma nova venda no banco de dados.
+        /// </summary>
+        /// <param name="vendaDTO"></param>
+        /// <returns>IActionResult</returns>
         [HttpPost]
         public IActionResult CreateVenda([FromBody] CreateVendaDTO vendaDTO)
         {
@@ -41,7 +44,10 @@ namespace Ecommerce.Controllers
         #endregion
 
         #region Get
-
+        /// <summary>
+        /// Retorna todas as vendas do banco de dados
+        /// </summary>
+        /// <returns>IActionResult</returns>
         [HttpGet]
         public IActionResult GetAllVendas()
         {
@@ -56,6 +62,12 @@ namespace Ecommerce.Controllers
 
 
         #region Put
+        /// <summary>
+        /// Atualiza o status de uma determinada venda do banco de dados.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="vendaDTO"></param>
+        /// <returns>IActionResult</returns>
         [HttpPut("{id}")]
         public IActionResult UpdateVenda(int id, UpdateVendaDTO vendaDTO)
         {
