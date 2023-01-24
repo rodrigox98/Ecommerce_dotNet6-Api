@@ -20,4 +20,4 @@
      - **De:** `Pagamento Aprovado  `**Para:** `Cancelada`
      - **De:** `Enviado para Transportador`. **Para:** `Entregue`
   
-  4. ![GifEcommerce](C:\Users\rodri\Videos\GifEcommerce.gif)
+  4. <a href="https://imgur.com/8cSxhAJ"><img src="https://i.imgur.com/8cSxhAJ.gif" title="source: imgur.com" /></a>
