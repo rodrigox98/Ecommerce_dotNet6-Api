@@ -11,9 +11,7 @@
 |                      |                               |            |             |
 
 - 1. Uma venda contém informação sobre o vendedor que a efetivou, data, identificador do pedido e os itens que foram vendidos;
-
   2. Verificação de venda com pelo menos 1 item;
-
   3. A atualização de status permite somente as seguintes transições:
 
      - **De:** `Aguardando pagamento ` **Para:** `Pagamento Aprovado`
@@ -21,5 +19,5 @@
      - **De:** `Pagamento Aprovado  ` **Para:** `Enviado para Transportadora`
      - **De:** `Pagamento Aprovado  `**Para:** `Cancelada`
      - **De:** `Enviado para Transportador`. **Para:** `Entregue`
-
-     
+  
+  4. ![GifEcommerce](C:\Users\rodri\Videos\GifEcommerce.gif)
