@@ -1,6 +1,8 @@
 - API REST utilizando .Net 6.
-- Documentação swagger 
-- A API Implementações:
+- Documentação swagger | Entity Framework | Microsoft SQL Server | AutoMapper
+- Pattern: DTO(Data Transfer Object)
+- A API Implementações: 
+
   1. Registra vendedor: Recebe dados pessoais do vendedor + Somatório de todas as vendas ligadas ao determinado vendedor. 
   2. Registrar venda: Recebe os dados do vendedor + itens vendidos + preço total da venda. Registra venda com status "Aguardando pagamento"; 
   3. Buscar venda: Busca pelo Id da venda; | Buscar Vendedor : Busca Pelo Id do vendedor.
