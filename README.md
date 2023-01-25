@@ -1,14 +1,18 @@
-- API REST utilizando .Net Core.
-- Documentação swagger 
-- A API Implementações:
-  1. Registrar venda: Recebe os dados do vendedor + itens vendidos. Registra venda com status "Aguardando pagamento";
-  2. Buscar venda: Busca pelo Id da venda;
-  3. Atualizar venda: Permite que seja atualizado o status da venda.
+- API REST utilizando .Net 6.
+- Documentação swagger | Entity Framework | Microsoft SQL Server | AutoMapper
+- Pattern: DTO(Data Transfer Object)
+- A API Implementações: 
+
+  1. Registra vendedor: Recebe dados pessoais do vendedor + Somatório de todas as vendas ligadas ao determinado vendedor. 
+  2. Registrar venda: Recebe os dados do vendedor + itens vendidos + preço total da venda. Registra venda com status "Aguardando pagamento"; 
+  3. Buscar venda: Busca pelo Id da venda; | Buscar Vendedor : Busca Pelo Id do vendedor.
+  4. Retorna lista de todos os vendedores ou vendas.
+  5. Atualizar venda: Permite que seja atualizado o status da venda.
      3. 1 Possíveis status: 
 
-| `Pagamento aprovado` | `Enviado para transportadora` | `Entregue` | `Cancelada` |
-| -------------------- | ----------------------------- | ---------- | ----------- |
-|                      |                               |            |             |
+    | `Pagamento aprovado` | `Enviado para transportadora` | `Entregue` | `Cancelada` |
+    | -------------------- | ----------------------------- | ---------- | ----------- |
+    |                      |                               |            |             |
 
 - 1. Uma venda contém informação sobre o vendedor que a efetivou, data, identificador do pedido e os itens que foram vendidos;
   2. Verificação de venda com pelo menos 1 item;
@@ -20,4 +24,4 @@
      - **De:** `Pagamento Aprovado  `**Para:** `Cancelada`
      - **De:** `Enviado para Transportador`. **Para:** `Entregue`
   
-  4. ![GifEcommerce](C:\Users\rodri\Videos\GifEcommerce.gif)
+  5. <a href="https://imgur.com/8cSxhAJ"><img src="https://i.imgur.com/8cSxhAJ.gif" title="source: imgur.com" /></a>
