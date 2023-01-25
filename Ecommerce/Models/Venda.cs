@@ -12,11 +12,17 @@ namespace Ecommerce.Models
         [Required]
         public string Itens { get; set; }
         [Required]
+        public float ValorTotal { get; set; }
+        [Required]
         public Status StatusVenda { get; set; }
         public int VendedorId { get; set; }
         [JsonIgnore]
         public virtual Vendedor Vendedor { get; set; }
         public DateTime DataVenda { get; set; }
+
+
+
+
 
     }
 }

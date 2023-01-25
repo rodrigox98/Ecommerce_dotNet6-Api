@@ -16,6 +16,7 @@ namespace Ecommerce.Models.Enum
         /// <exception cref="Exception"></exception>
         public bool IsStatusInvalide(Venda venda, UpdateVendaDTO update)
         {
+
             if (venda.StatusVenda == Status.AguardandoPagamento && (update.StatusVenda == Status.EnviadoParaTransportadora
                 || update.StatusVenda == Status.Entregue || update.StatusVenda == Status.AguardandoPagamento))
             {

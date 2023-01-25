@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ecommerce.Context;
 using Ecommerce.DTOs.VendaDTO;
+using Ecommerce.DTOs.VendedorDTO;
 using Ecommerce.Models;
 using Ecommerce.Models.Enum;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +40,7 @@ namespace Ecommerce.Controllers
 
             _context.Vendas.Add(venda);
             _context.SaveChanges();
-            return Ok();
+            return CreatedAtAction(nameof(GetVendaById), new {Id = venda.VendaId }, venda);
         }
         #endregion
 
@@ -52,14 +53,28 @@ namespace Ecommerce.Controllers
         public IActionResult GetAllVendas()
         {
             List<Venda> vendas = _context.Vendas.ToList();
+            vendas.ForEach(venda => venda.Vendedor.CalcularTotalVendas());
             List<ReadVendaDTO> vendasDTO = _mapper.Map<List<ReadVendaDTO>>(vendas);
             return Ok(vendasDTO);
         }
+        
+
+        /// <summary>
+        /// Returna uma venda por um determinado Id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public IActionResult GetVendaById(int id)
+        {
+            Venda vendaBanco = _context.Vendas.FirstOrDefault(venda => venda.VendaId == id);
+            if (vendaBanco == null) return NotFound();
+
+            vendaBanco.Vendedor.CalcularTotalVendas();
+            ReadVendaDTO venda = _mapper.Map<ReadVendaDTO>(vendaBanco);
+            return Ok(venda);
+        }
         #endregion
-
-
-
-
 
         #region Put
         /// <summary>

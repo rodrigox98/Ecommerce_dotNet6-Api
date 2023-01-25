@@ -49,6 +49,8 @@ namespace Ecommerce.Controllers
         {
             
             List<Vendedor> vendedores = _context.Vendedores.ToList();
+            vendedores.ForEach(vendedor => vendedor.CalcularTotalVendas());
+
             List<ReadVendedorDTO> vendedoresDTO = _mapper.Map<List<ReadVendedorDTO>>(vendedores);
             return Ok(vendedoresDTO);
         }
@@ -64,8 +66,10 @@ namespace Ecommerce.Controllers
             var vendedorBanco = _context.Vendedores.FirstOrDefault(v => v.VendedorId == id);
             
             if (vendedorBanco == null) return NotFound(msg);
-
+            //Calcula o somatório total de todas as Vendas do Vendedor.
+            vendedorBanco.CalcularTotalVendas();
             ReadVendedorDTO vendedor = _mapper.Map<ReadVendedorDTO>(vendedorBanco);
+            
             
             return Ok(vendedor);
         }
