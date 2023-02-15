@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Context
 {
-    public class EcommerceContext : DbContext
+    public class MarketplaceContext : DbContext
     {
-        public EcommerceContext(DbContextOptions<EcommerceContext> options) : base(options)
+        public MarketplaceContext(DbContextOptions<MarketplaceContext> options) : base(options)
         {
 
         }

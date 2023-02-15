@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ecommerce.Migrations
 {
-    [DbContext(typeof(EcommerceContext))]
+    [DbContext(typeof(MarketplaceContext))]
     [Migration("20230113215327_RelacionamentoVendaEVendedor")]
     partial class RelacionamentoVendaEVendedor
     {

@@ -5,6 +5,7 @@ using Ecommerce.DTOs.VendedorDTO;
 using Ecommerce.Models;
 using Ecommerce.Models.Enum;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.Net;
 
@@ -14,10 +15,10 @@ namespace Ecommerce.Controllers
     [Route("[controller]")]
     public class VendaController : ControllerBase
     {
-        private EcommerceContext _context;
+        private MarketplaceContext _context;
         private IMapper _mapper;
 
-        public VendaController(EcommerceContext context, IMapper mapper)
+        public VendaController(MarketplaceContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -34,13 +35,20 @@ namespace Ecommerce.Controllers
         public IActionResult CreateVenda([FromBody] CreateVendaDTO vendaDTO)
         {
             //Verifica se o Json passado no body está correto. Exemplo: Foreign Key. 
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            try{
 
-            Venda venda = _mapper.Map<Venda>(vendaDTO);
-
-            _context.Vendas.Add(venda);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(GetVendaById), new {Id = venda.VendaId }, venda);
+                Venda venda = _mapper.Map<Venda>(vendaDTO);
+               
+                 if(!ModelState.IsValid) return BadRequest(ModelState);
+                _context.Vendas.Add(venda);
+        
+                _context.SaveChanges();
+                return CreatedAtAction(nameof(GetVendaById), new {Id = venda.VendaId }, venda);
+            }
+          catch(SqlException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
         #endregion
 

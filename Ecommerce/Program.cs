@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<EcommerceContext>(options => options.UseLazyLoadingProxies().
+builder.Services.AddDbContext<MarketplaceContext>(options => options.UseLazyLoadingProxies().
 UseSqlServer(builder.Configuration.GetConnectionString("ConnectionDataBase")));
 
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add
@@ -21,7 +21,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "EcommerceAPI", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "MarketplaceAPI", Version = "v1" });
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);

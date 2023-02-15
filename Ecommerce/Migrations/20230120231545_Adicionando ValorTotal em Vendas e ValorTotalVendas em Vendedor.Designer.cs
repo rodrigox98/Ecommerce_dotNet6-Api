@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ecommerce.Migrations
 {
-    [DbContext(typeof(EcommerceContext))]
+    [DbContext(typeof(MarketplaceContext))]
     [Migration("20230120231545_Adicionando ValorTotal em Vendas e ValorTotalVendas em Vendedor")]
     partial class AdicionandoValorTotalemVendaseValorTotalVendasemVendedor
     {

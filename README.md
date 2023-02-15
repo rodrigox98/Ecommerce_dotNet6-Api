@@ -1,13 +1,17 @@
 - API REST utilizando .Net 6.
+
 - Documentação swagger | Entity Framework | Microsoft SQL Server | AutoMapper
+
 - Pattern: DTO(Data Transfer Object)
+
 - A API Implementações: 
 
   1. Registra vendedor: Recebe dados pessoais do vendedor + Somatório de todas as vendas ligadas ao determinado vendedor. 
   2. Registrar venda: Recebe os dados do vendedor + itens vendidos + preço total da venda. Registra venda com status "Aguardando pagamento"; 
   3. Buscar venda: Busca pelo Id da venda; | Buscar Vendedor : Busca Pelo Id do vendedor.
   4. Retorna lista de todos os vendedores ou vendas.
-  5. Atualizar venda: Permite que seja atualizado o status da venda.
+  5. Retorna o valor(somatório) de todas as vendas feitas pelo determinado vendedor.
+  6. Atualizar venda: Permite que seja atualizado o status da venda.
      3. 1 Possíveis status: 
 
     | `Pagamento aprovado` | `Enviado para transportadora` | `Entregue` | `Cancelada` |

@@ -10,10 +10,10 @@ namespace Ecommerce.Controllers
     [Route("[controller]")]
     public class VendedorController : ControllerBase
     {
-        private readonly EcommerceContext _context;
+        private readonly MarketplaceContext _context;
         private IMapper _mapper;
 
-        public VendedorController(EcommerceContext context, IMapper mapper)
+        public VendedorController(MarketplaceContext context, IMapper mapper)
         {
             _mapper = mapper;
             _context = context;
