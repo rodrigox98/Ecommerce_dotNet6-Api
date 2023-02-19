@@ -2,6 +2,8 @@
 using Ecommerce.Context;
 using Ecommerce.DTOs.VendedorDTO;
 using Ecommerce.Models;
+using FluentResults;
+using Marktplace.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers
@@ -10,13 +12,11 @@ namespace Ecommerce.Controllers
     [Route("[controller]")]
     public class VendedorController : ControllerBase
     {
-        private readonly MarketplaceContext _context;
-        private IMapper _mapper;
+        private VendedorService _service;
 
-        public VendedorController(MarketplaceContext context, IMapper mapper)
+        public VendedorController(VendedorService service)
         {
-            _mapper = mapper;
-            _context = context;
+            _service = service;
         }
 
         string msg = "Objeto não encontrado";
@@ -31,10 +31,8 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public IActionResult CreateVendedor([FromBody] CreateVendedorDTO vendedorDTO)
         {
-            Vendedor vendedor = _mapper.Map<Vendedor>(vendedorDTO);
-            _context.Vendedores.Add(vendedor);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(GetVendedorById), new { Id = vendedor.VendedorId }, vendedor);
+            ReadVendedorDTO vendedor = _service.CreateVendedor(vendedorDTO);
+            return CreatedAtAction(nameof(GetVendedorById), new { Id = vendedor.VendedorId}, vendedor);
         }
         #endregion
 
@@ -48,11 +46,9 @@ namespace Ecommerce.Controllers
         public IActionResult GetAllVendedores()
         {
             
-            List<Vendedor> vendedores = _context.Vendedores.ToList();
-            vendedores.ForEach(vendedor => vendedor.CalcularTotalVendas());
-
-            List<ReadVendedorDTO> vendedoresDTO = _mapper.Map<List<ReadVendedorDTO>>(vendedores);
-            return Ok(vendedoresDTO);
+            List<ReadVendedorDTO> vendedores = _service.GetAllVendedores();
+            if (vendedores == null) return NotFound();
+            return Ok(vendedores);
         }
 
         /// <summary>
@@ -63,14 +59,10 @@ namespace Ecommerce.Controllers
         [HttpGet("{id}")]
         public IActionResult GetVendedorById(int id)
         {
-            var vendedorBanco = _context.Vendedores.FirstOrDefault(v => v.VendedorId == id);
-            
-            if (vendedorBanco == null) return NotFound(msg);
-            //Calcula o somatório total de todas as Vendas do Vendedor.
-            vendedorBanco.CalcularTotalVendas();
-            ReadVendedorDTO vendedor = _mapper.Map<ReadVendedorDTO>(vendedorBanco);
-            
-            
+            ReadVendedorDTO vendedor = _service.GetVendedorById(id);
+
+            if(vendedor == null) return NotFound();
+
             return Ok(vendedor);
         }
         #endregion
@@ -86,13 +78,9 @@ namespace Ecommerce.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateVendedor(int id, [FromBody] UpdateVendedorDTO vendedorDTO)
         {
-            Vendedor vendedorBancoDeDados = _context.Vendedores.FirstOrDefault(f => f.VendedorId == id);
-
-            if (vendedorBancoDeDados == null) return NotFound(msg);
-
-            _mapper.Map(vendedorDTO, vendedorBancoDeDados);
-           
-            _context.SaveChanges();
+            Result result = _service.UpdateVendedor(id, vendedorDTO);
+            
+            if(result.IsFailed) return NotFound();
             return NoContent();
         }
         #endregion

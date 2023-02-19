@@ -1,4 +1,5 @@
 using Ecommerce.Context;
+using Marktplace.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -16,7 +17,7 @@ builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializ
 
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
+builder.Services.AddTransient<VendedorService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
