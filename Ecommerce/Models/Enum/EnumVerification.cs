@@ -20,19 +20,27 @@ namespace Ecommerce.Models.Enum
             if (venda.StatusVenda == Status.AguardandoPagamento && (update.StatusVenda == Status.EnviadoParaTransportadora
                 || update.StatusVenda == Status.Entregue || update.StatusVenda == Status.AguardandoPagamento))
             {
-                throw new Exception("Só é possível mudar para Pagamento Aprovado ou Cancelada");
+                throw new Exception("Só é possível atualizar para Pagamento Aprovado ou Cancelada");
                 return true;
             }
             if (venda.StatusVenda == Status.PagamentoAprovado && (update.StatusVenda == Status.PagamentoAprovado
-                || update.StatusVenda == Status.Entregue))
+                || update.StatusVenda == Status.Entregue || update.StatusVenda == Status.AguardandoPagamento))
             {
-                throw new Exception("Só é possível mudar para Enviado para Transportadora ou Cancelada");
+                throw new Exception("Só é possível atualizar para Enviado para Transportadora ou Cancelada");
                 return true;
             }
             if (venda.StatusVenda == Status.EnviadoParaTransportadora && update.StatusVenda != Status.Entregue)
             {
-                throw new Exception("Só é possível mudar para Entregue ");
+                throw new Exception("Só é possível atualizar para Entregue ");
                 return true;
+            }
+            if (venda.StatusVenda == Status.Entregue && update.StatusVenda != Status.Entregue)
+            {
+                throw new Exception("Venda entregue, não é mais possível atualizar.");
+            }
+            if (venda.StatusVenda == Status.Cancelada && update.StatusVenda != Status.Cancelada)
+            {
+                throw new Exception("Venda cancelada, não é possível atualizar");
             }
             return false;
         }

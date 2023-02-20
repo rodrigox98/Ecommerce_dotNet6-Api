@@ -4,6 +4,8 @@ using Ecommerce.DTOs.VendaDTO;
 using Ecommerce.DTOs.VendedorDTO;
 using Ecommerce.Models;
 using Ecommerce.Models.Enum;
+using FluentResults;
+using Marktplace.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
@@ -15,14 +17,11 @@ namespace Ecommerce.Controllers
     [Route("[controller]")]
     public class VendaController : ControllerBase
     {
-        private MarketplaceContext _context;
-        private IMapper _mapper;
+        private VendaService _service;
 
-        public VendaController(MarketplaceContext context, IMapper mapper)
+        public VendaController(VendaService service)
         {
-            _context = context;
-            _mapper = mapper;
-            
+            _service = service;
         }
         
         #region Post
@@ -35,20 +34,10 @@ namespace Ecommerce.Controllers
         public IActionResult CreateVenda([FromBody] CreateVendaDTO vendaDTO)
         {
             //Verifica se o Json passado no body está correto. Exemplo: Foreign Key. 
-            try{
-
-                Venda venda = _mapper.Map<Venda>(vendaDTO);
+            ReadVendaDTO venda = _service.CreateVenda(vendaDTO);
+            if(!ModelState.IsValid) return BadRequest(ModelState);
                
-                 if(!ModelState.IsValid) return BadRequest(ModelState);
-                _context.Vendas.Add(venda);
-        
-                _context.SaveChanges();
-                return CreatedAtAction(nameof(GetVendaById), new {Id = venda.VendaId }, venda);
-            }
-          catch(SqlException e)
-            {
-                return BadRequest(e.Message);
-            }
+            return CreatedAtAction(nameof(GetVendaById), new {Id = venda.VendaId }, venda);
         }
         #endregion
 
@@ -60,13 +49,10 @@ namespace Ecommerce.Controllers
         [HttpGet]
         public IActionResult GetAllVendas()
         {
-            List<Venda> vendas = _context.Vendas.ToList();
-            vendas.ForEach(venda => venda.Vendedor.CalcularTotalVendas());
-            List<ReadVendaDTO> vendasDTO = _mapper.Map<List<ReadVendaDTO>>(vendas);
-            return Ok(vendasDTO);
+            List<ReadVendaDTO> vendas = _service.GetAllVendas();
+            return Ok(vendas);
         }
         
-
         /// <summary>
         /// Returna uma venda por um determinado Id.
         /// </summary>
@@ -75,11 +61,10 @@ namespace Ecommerce.Controllers
         [HttpGet("{id}")]
         public IActionResult GetVendaById(int id)
         {
-            Venda vendaBanco = _context.Vendas.FirstOrDefault(venda => venda.VendaId == id);
-            if (vendaBanco == null) return NotFound();
+            ReadVendaDTO venda = _service.GetVendaById(id);
 
-            vendaBanco.Vendedor.CalcularTotalVendas();
-            ReadVendaDTO venda = _mapper.Map<ReadVendaDTO>(vendaBanco);
+            if (venda == null) return NotFound();
+
             return Ok(venda);
         }
         #endregion
@@ -92,14 +77,16 @@ namespace Ecommerce.Controllers
         /// <param name="vendaDTO"></param>
         /// <returns>IActionResult</returns>
         [HttpPut("{id}")]
-        public IActionResult UpdateVenda(int id, UpdateVendaDTO vendaDTO)
+        public IActionResult UpdateVenda(int id, [FromBody] UpdateVendaDTO vendaDTO)
         {
-            Venda vendaBanco = _context.Vendas.FirstOrDefault(v => v.VendaId == id);
-            
-
+            Result statusAlterado = _service.UpdateVenda(id, vendaDTO);
             TryValidateModel(vendaDTO);
 
-            if(vendaBanco == null)
+                if (statusAlterado.IsFailed) return NotFound();
+            
+            return NoContent();
+            
+            /*if(statusAlterado == null)
             {
                 return NotFound(new {msg = "Objeto não encontrado, verifique o ID"});
             }
@@ -111,7 +98,7 @@ namespace Ecommerce.Controllers
                 _mapper.Map(vendaDTO, vendaBanco);
                 _context.SaveChanges();
                 return NoContent();
-            }
+            }*/
         }
         #endregion
     }
